@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class 9 Notes (2025) — All Subjects</title>
+  <style>
+    :root{
+      --bg:#0f172a; /* slate-900 */
+      --panel:#111827cc; /* gray-900/80 */
+      --card:#0b1224; /* dark panel */
+      --text:#e5e7eb; /* gray-200 */
+      --muted:#9ca3af; /* gray-400 */
+      --brand:#22d3ee; /* cyan-400 */
+      --accent:#a78bfa; /* violet-400 */
+      --ok:#34d399; /* green-400 */
+      --warn:#fbbf24; /* amber-400 */
+      --danger:#f87171; /* red-400 */
+      --border:#1f2937; /* gray-800 */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 10% -10%, #1e293b 0%, #0b1020 40%, #070b16 80%), var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    .app{
+      display:grid; grid-template-columns: 300px 1fr; gap:16px; height:100%; max-height:100vh;
+    }
+    aside{
+      border-right:1px solid var(--border);
+      padding:16px; overflow:auto; backdrop-filter: blur(6px); background:linear-gradient(180deg, #0b1120cc, #0b112099);
+    }
+    main{ padding:16px; overflow:auto; }
+    .brand{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .logo{ width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,var(--brand),var(--accent)); box-shadow:0 0 24px #22d3ee55; }
+    .title{ font-weight:800; letter-spacing:.3px; }
+
+    .search{ position:relative; margin:12px 0 10px; }
+    .search input{
+      width:100%; padding:10px 12px 10px 36px; border-radius:12px; border:1px solid var(--border); background:#0b1224; color:var(--text);
+      outline:none; box-shadow: inset 0 0 0 9999px #0b1224;
+    }
+    .search .icon{ position:absolute; left:10px; top:9px; opacity:.7 }
+
+    .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+    .pill{ padding:6px 10px; border:1px solid var(--border); border-radius:999px; cursor:pointer; font-size:.9rem; opacity:.9 }
+    .pill.active{ border-color:var(--brand); color:var(--brand); box-shadow:0 0 0 2px #22d3ee22 inset }
+
+    .tree{ margin-top:10px; }
+    details{ border:1px solid var(--border); border-radius:12px; margin-bottom:10px; overflow:hidden; background:#0a0f20; }
+    summary{ list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; background:#0c1328; }
+    summary::-webkit-details-marker{ display:none }
+
+    .group{ padding:6px 10px 10px; }
+    .chapter{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; border:1px solid transparent; }
+    .chapter:hover{ background:#0e1630; border-color:#101a3a }
+
+    .content{ max-width:1000px; margin:0 auto; }
+    .card{
+      background:#0b1224; border:1px solid var(--border); border-radius:16px; padding:18px; box-shadow:0 10px 30px #0006;
+    }
+    h1{ font-size:1.8rem; margin:0 0 10px; }
+    h2{ font-size:1.3rem; margin:18px 0 8px; color:#cbd5e1 }
+    .muted{ color:var(--muted); font-size:.95rem; }
+    .kbd{ border:1px solid var(--border); padding:0 6px; border-radius:6px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:#0f172a; }
+    .tags{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 0 }
+    .tag{ font-size:.75rem; border:1px solid var(--border); padding:2px 8px; border-radius:999px; opacity:.9 }
+
+    .note{ border-left:3px solid var(--brand); padding:10px 12px; background:#071022; border-radius:10px; }
+    .qa{ border-left:3px solid var(--accent); padding:10px 12px; background:#0a0c1c; border-radius:10px; }
+    .list{ padding-left:20px }
+
+    .toolbar{ display:flex; gap:10px; flex-wrap:wrap; margin:12px 0; }
+    button{
+      background:linear-gradient(180deg,#101a3e,#0b1224); border:1px solid var(--border); color:var(--text);
+      padding:8px 12px; border-radius:12px; cursor:pointer;
+    }
+    button:hover{ border-color:#1f3b7c }
+
+    .footer{ margin-top:16px; color:var(--muted); font-size:.9rem; text-align:center }
+    .hidden{ display:none }
+    .highlight{ background:#1a2244; box-shadow:0 0 0 2px #1a2c62 inset; border-radius:8px; padding:0 4px }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="title">Class 9 Notes (2025)</div>
+          <div class="muted">All Subjects • Quick & Simple</div>
+        </div>
+      </div>
+
+      <div class="search">
+        <span class="icon">🔎</span>
+        <input id="search" placeholder="Search topics, formulas, Q&A (Ctrl+/)" />
+      </div>
+
+      <div class="pillrow" id="subjectPills"></div>
+
+      <div id="tree" class="tree"></div>
+
+      <div class="footer">Press <span class="kbd">Ctrl</span>+<span class="kbd">/</span> to focus search • Print with <span class="kbd">Ctrl</span>+<span class="kbd">P</span></div>
+    </aside>
+
+    <main>
+      <div class="content">
+        <div class="card" id="reader">
+          <h1>Welcome 👋</h1>
+          <p class="muted">This is a single‑file offline website. Pick a subject and chapter from the left to read notes. Use the search box to find key terms across all chapters.</p>
+          <div class="tags">
+            <span class="tag">Easy Language</span>
+            <span class="tag">Key Points</span>
+            <span class="tag">Q & A</span>
+            <span class="tag">Formulas</span>
+          </div>
+          <h2>Quick Tips</h2>
+          <ul class="list">
+            <li>Use <span class="kbd">Ctrl</span> + <span class="kbd">F</span> or the search box for instant lookup.</li>
+            <li>Everything is client‑side. Safe for GitHub Pages. Keep file name <code>index.html</code>.</li>
+            <li>To add/modify notes, scroll to the <code>NOTES</code> data at the bottom and edit.</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ======= DATA MODEL =======
+    // You can expand this easily. Each chapter content accepts simple HTML (p, ul, ol, strong, em, code, etc.)
+    const NOTES = {
+      "Science": {
+        book: "NCERT Science",
+        chapters: [
+          {
+            id: "sci-matter-in-our-surroundings",
+            title: "1) Matter in Our Surroundings",
+            tags: ["states of matter","latent heat","diffusion"],
+            html: `
+              <p><strong>Key Idea:</strong> Matter has particles with spaces between them and constant motion. The state (solid, liquid, gas) depends on inter‑particle forces and kinetic energy.</p>
+              <div class="note">
+                <strong>Key Points</strong>
+                <ul class="list">
+                  <li><em>Diffusion</em>: mixing of particles on their own. Faster in gases &gt; liquids &gt; solids.</li>
+                  <li><em>Temperature ↑</em> → kinetic energy ↑ → melting/evaporation becomes easier.</li>
+                  <li><em>Pressure ↑</em> on gas can liquefy it (LPG, CNG).</li>
+                </ul>
+              </div>
+              <h2>Change of State</h2>
+              <ul class="list">
+                <li><strong>Melting point</strong>: temp at which solid → liquid (for ice ~0°C).</li>
+                <li><strong>Boiling point</strong>: temp at which liquid → gas (water 100°C at 1 atm).</li>
+                <li><strong>Latent heat</strong>: heat used to change state without temp change.</li>
+              </ul>
+              <div class="qa">
+                <strong>Quick Q&amp;A</strong>
+                <ol class="list">
+                  <li><strong>Q:</strong> Why does evaporation cause cooling? <br><strong>A:</strong> High‑energy particles leave the surface, removing heat from remaining liquid.</li>
+                  <li><strong>Q:</strong> Why camphor disappears? <br><strong>A:</strong> It sublimes (solid → gas) at room temperature.</li>
+                </ol>
+              </div>
+            `
+          },
+          {
+            id: "sci-is-matter-around-us-pure",
+            title: "2) Is Matter Around Us Pure?",
+            tags: ["mixture","solution","separation"],
+            html: `
+              <p><strong>Key Idea:</strong> Pure substance has only one kind of particles (elements/compounds). Mixtures contain two or more substances physically mixed.</p>
+              <ul class="list">
+                <li><strong>Types of mixtures</strong>: homogeneous (solution) and heterogeneous (suspension, colloid).</li>
+                <li><strong>Separation techniques</strong>: filtration, evaporation, crystallisation, distillation, chromatography.</li>
+              </ul>
+              <div class="qa">
+                <ol class="list">
+                  <li><strong>Q:</strong> Why is air a mixture? <br><strong>A:</strong> Variable composition (N<sub>2</sub>, O<sub>2</sub>, CO<sub>2</sub>, etc.) and components retain properties.</li>
+                </ol>
+              </div>
+            `
+          },
+          {
+            id: "sci-atoms-molecules",
+            title: "3) Atoms and Molecules",
+            tags: ["laws","dalton","balancing"],
+            html: `
+              <p>Law of conservation of mass and constant proportions. Atoms combine in whole numbers to form molecules. Balancing chemical equations keeps atoms equal on both sides.</p>
+              <div class="note">
+                <ul class="list">
+                  <li><strong>Molar mass</strong> (g/mol) equals relative molecular mass.</li>
+                  <li><strong>Formula unit mass</strong> for ionic compounds.</li>
+                </ul>
+              </div>
+            `
+          }
+        ]
+      },
+      "Mathematics": {
+        book: "NCERT Maths",
+        chapters: [
+          {
+            id: "math-number-systems",
+            title: "1) Number Systems",
+            tags: ["irrational","real line","laws"],
+            html: `
+              <p>Real numbers include rationals and irrationals. <em>√2, π</em> are irrational. Decimal expansion: terminating / non‑terminating repeating.</p>
+              <div class="note">
+                <strong>Formulas</strong>
+                <ul class="list">
+                  <li>a<sup>m</sup>·a<sup>n</sup>=a<sup>m+n</sup>, (a<sup>m</sup>)<sup>n</sup>=a<sup>mn</sup>, a<sup>0</sup>=1 (a≠0)</li>
+                  <li>Rational number = p/q, q≠0, p,q integers.</li>
+                </ul>
+              </div>
+              <div class="qa">
+                <ol class="list">
+                  <li><strong>Q:</strong> Show 0.333… is rational. <br><strong>A:</strong> Let x=0.333…; 10x=3.333…; 10x−x=3 ⇒ x=3/9=1/3.</li>
+                </ol>
+              </div>
+            `
+          },
+          {
+            id: "math-polynomials",
+            title: "2) Polynomials",
+            tags: ["zeros","factor theorem","division"],
+            html: `
+              <p>Polynomial in x: a<sub>n</sub>x<sup>n</sup>+…+a<sub>0</sub>. <strong>Zero</strong> of a polynomial → value of x where P(x)=0.</p>
+              <ul class="list">
+                <li><strong>Remainder theorem:</strong> dividing by (x−a) gives remainder P(a).</li>
+                <li><strong>Factor theorem:</strong> if P(a)=0, then (x−a) is a factor.</li>
+              </ul>
+              <div class="note">
+                <strong>Quadratic</strong> ax<sup>2</sup>+bx+c: sum of zeros = −b/a; product = c/a.</div>
+            `
+          },
+          {
+            id: "math-coordinate-geometry",
+            title: "3) Coordinate Geometry",
+            tags: ["distance","section","quadrants"],
+            html: `
+              <ul class="list">
+                <li><strong>Distance</strong> between (x1,y1) and (x2,y2): √[(x2−x1)^2+(y2−y1)^2]</li>
+                <li><strong>Section</strong> (internal) of line joining A,B in ratio m:n: ((mx2+nx1)/(m+n), (my2+ny1)/(m+n))</li>
+                <li><strong>Midpoint</strong>: ((x1+x2)/2, (y1+y2)/2)</li>
+              </ul>
+            `
+          }
+        ]
+      },
+      "English — Beehive": {
+        book: "NCERT Beehive",
+        chapters: [
+          {
+            id: "eng-bh-the-fun-they-had",
+            title: "1) The Fun They Had (Story)",
+            tags: ["future school","theme"],
+            html: `
+              <p>Set in the future with mechanical teachers and e‑classrooms. Two kids find an old printed book and wonder how schools used to be.</p>
+              <div class="note"><strong>Theme:</strong> Human interaction and joy of learning together vs. isolated machine learning.</div>
+              <div class="qa">
+                <ol class="list">
+                  <li><strong>Q:</strong> Why did Margie dislike her teacher? <br><strong>A:</strong> The mechanical teacher kept giving tests and she scored poorly in Geography.</li>
+                  <li><strong>Q:</strong> What surprised them about the book? <br><strong>A:</strong> The words didn’t move; the pages were fixed.</li>
+                </ol>
+              </div>
+            `
+          },
+          {
+            id: "eng-bh-the-sound-of-music",
+            title: "2) The Sound of Music (Biography)",
+            tags: ["Evelyn Glennie","Ustad Bismillah Khan"],
+            html: `
+              <p><strong>Part I:</strong> Evelyn Glennie, a deaf percussionist, proves that determination and practice can overcome disability.</p>
+              <p><strong>Part II:</strong> Ustad Bismillah Khan popularised the shehnai worldwide and loved the Ganga and Benaras.</p>
+              <div class="note"><strong>Message:</strong> Passion + perseverance leads to excellence.</div>
+            `
+          },
+          {
+            id: "eng-bh-the-little-girl",
+            title: "3) The Little Girl (Story)",
+            tags: ["father-daughter","fear to love"],
+            html: `
+              <p>Kezzia fears her strict father, but later understands his love when he cares for her when she is scared at night.</p>
+              <div class="qa"><strong>Theme:</strong> Parents’ love may look strict; understanding grows with experience.</div>
+            `
+          }
+        ]
+      },
+      "English — Moments": {
+        book: "NCERT Moments",
+        chapters: [
+          {
+            id: "eng-mo-the-lost-child",
+            title: "1) The Lost Child",
+            tags: ["fair","parents love"],
+            html: `
+              <p>A child lost in a fair realises that his real need is his parents, not toys or sweets.</p>
+              <div class="note"><strong>Moral:</strong> Parents’ presence is more valuable than material things.</div>
+            `
+          },
+          {
+            id: "eng-mo-the-adventures-of-toto",
+            title: "2) The Adventures of Toto",
+            tags: ["mischief","pet monkey"],
+            html: `
+              <p>Grandfather’s pet monkey Toto creates chaos. Story shows fun and trouble of keeping wild animals as pets.</p>
+            `
+          }
+        ]
+      },
+      "Social Science — History": {
+        book: "India and the Contemporary World – I",
+        chapters: [
+          {
+            id: "his-french-revolution",
+            title: "1) The French Revolution",
+            tags: ["1789","liberty equality fraternity"],
+            html: `
+              <ul class="list">
+                <li><strong>Causes:</strong> social inequality (Three Estates), financial crisis, Enlightenment ideas.</li>
+                <li><strong>Events:</strong> Estates‑General, National Assembly, fall of Bastille (14 July 1789), Declaration of Rights.</li>
+                <li><strong>Impact:</strong> ended feudalism, inspired democracies worldwide.</li>
+              </ul>
+            `
+          },
+          {
+            id: "his-socialism-in-europe",
+            title: "2) Socialism in Europe and the Russian Revolution",
+            tags: ["1917","Lenin"],
+            html: `<p>Tsarist autocracy, 1905 revolution, February and October 1917 revolutions. Bolsheviks under Lenin established a socialist state.</p>`
+          }
+        ]
+      },
+      "Social Science — Geography": {
+        book: "Contemporary India – I",
+        chapters: [
+          {
+            id: "geo-india-size-location",
+            title: "1) India — Size and Location",
+            tags: ["lat long","IST"],
+            html: `<p>India: 8°4'N–37°6'N and 68°7'E–97°25'E. IST = 82°30'E (UTC+5:30). Strategic location in Indian Ocean.</p>`
+          },
+          {
+            id: "geo-physical-features",
+            title: "2) Physical Features of India",
+            tags: ["Himalayas","plains","plateaus","deserts","coasts"],
+            html: `<p>Six major physiographic divisions: Himalayas, Northern Plains, Peninsular Plateau, Indian Desert, Coastal Plains, Islands.</p>`
+          }
+        ]
+      },
+      "Social Science — Political Science": {
+        book: "Democratic Politics – I",
+        chapters: [
+          {
+            id: "pol-what-is-democracy",
+            title: "1) What is Democracy? Why Democracy?",
+            tags: ["features","merits","de-merits"],
+            html: `<p>Democracy = rule by elected representatives, periodic elections, rule of law, rights and freedoms, independent judiciary.</p>`
+          },
+          {
+            id: "pol-constitutional-design",
+            title: "2) Constitutional Design",
+            tags: ["South Africa","Constituent Assembly"],
+            html: `<p>Indian Constitution drafted by the Constituent Assembly (1946–49). Values: justice, liberty, equality, fraternity.</p>`
+          }
+        ]
+      },
+      "Social Science — Economics": {
+        book: "Economics",
+        chapters: [
+          {
+            id: "eco-the-story-of-village-palampur",
+            title: "1) The Story of Village Palampur",
+            tags: ["factors of production","Green Revolution"],
+            html: `<p>Production depends on land, labour, capital and enterprise. Modern farming increases yield but may reduce soil fertility and employment.</p>`
+          },
+          {
+            id: "eco-people-as-resource",
+            title: "2) People as Resource",
+            tags: ["education","health","unemployment"],
+            html: `<p>Human capital formation through education and health increases productivity and income.</p>`
+          }
+        ]
+      },
+      "Hindi (Kshitij + Kritika) — Outline": {
+        book: "NCERT Hindi",
+        chapters: [
+          { id:"hin-kshitij-1", title:"कृतियाँ — रूपरेखा", tags:["सार","प्रश्नोत्तर"], html:`<p>यह अनुभाग सरल भाषा में सार और महत्वपूर्ण प्रश्नोत्तर के रूप में जोड़ा जाएगा।</p>` }
+        ]
+      },
+      "Urdu (Nawa-e-Urdu) — Outline": {
+        book: "NCERT Urdu",
+        chapters: [
+          { id:"urd-nawaye-urdu-outline", title:"خلاصہ اور سوالات — خاکہ", tags:["سہل زبان"], html:`<p>یہ حصہ آسان زبان میں خلاصہ اور اہم سوالات کے ساتھ بڑھایا جائے گا۔</p>` }
+        ]
+      }
+    };
+
+    // ======= RENDERER =======
+    const $tree = document.getElementById('tree');
+    const $reader = document.getElementById('reader');
+    const $subjectPills = document.getElementById('subjectPills');
+    const $search = document.getElementById('search');
+
+    const state = { subject: null };
+
+    function el(tag, attrs={}, children=[]) {
+      const e = document.createElement(tag);
+      Object.entries(attrs).forEach(([k,v])=>{
+        if(k==='class') e.className=v; else if(k==='html') e.innerHTML=v; else e.setAttribute(k,v);
+      });
+      children.forEach(c=>e.appendChild(typeof c==='string'?document.createTextNode(c):c));
+      return e;
+    }
+
+    function renderPills(){
+      $subjectPills.innerHTML='';
+      Object.keys(NOTES).forEach((subj,i)=>{
+        const pill = el('div',{class:'pill'+(state.subject===subj?' active':'')});
+        pill.textContent=subj.split(' — ')[0];
+        pill.title=subj;
+        pill.addEventListener('click',()=>{ state.subject=subj; renderTree(); renderPills(); });
+        $subjectPills.appendChild(pill);
+        if(i===0 && !state.subject) { state.subject=subj; }
+      });
+    }
+
+    function renderTree(filterText=''){
+      $tree.innerHTML='';
+      const subjects = state.subject? {[state.subject]: NOTES[state.subject]} : NOTES;
+      Object.entries(subjects).forEach(([subject, data])=>{
+        const box = el('details', {open: true});
+        const sum = el('summary', {}, [document.createTextNode(subject+" · "+data.book)]);
+        const group = el('div', {class:'group'});
+        data.chapters.forEach(ch=>{
+          const hay = (ch.title+" "+(ch.tags||[]).join(' ')+" "+ch.html.replace(/<[^>]+>/g,' ')).toLowerCase();
+          if(filterText && !hay.includes(filterText.toLowerCase())) return;
+          const item = el('div', {class:'chapter'});
+          const dot = el('div', {style:'width:8px;height:8px;border-radius:999px;background:var(--brand)'});
+          const txt = el('div', {}, [el('div', {style:'font-weight:600'}, [document.createTextNode(ch.title)]), el('div',{class:'muted', style:'font-size:.85rem'},[document.createTextNode((ch.tags||[]).join(' • '))])]);
+          item.appendChild(dot); item.appendChild(txt);
+          item.addEventListener('click',()=> openChapter(subject, ch));
+          group.appendChild(item);
+        });
+        box.appendChild(sum); box.appendChild(group); $tree.appendChild(box);
+      });
+    }
+
+    function openChapter(subject, ch){
+      $reader.innerHTML = '';
+      $reader.appendChild(el('h1',{},[document.createTextNode(subject+': '+ch.title)]));
+      const tags = el('div',{class:'tags'});
+      (ch.tags||[]).forEach(t=> tags.appendChild(el('span',{class:'tag'},[document.createTextNode(t)])) );
+      $reader.appendChild(tags);
+      const div = el('div',{html:ch.html});
+      $reader.appendChild(div);
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function doSearch(){
+      const q = $search.value.trim();
+      renderTree(q);
+      if(!q) return;
+      // Try to highlight first match in current reader
+      const mark = (node)=>{
+        const walk = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null, false);
+        const ranges=[]; const term = q.toLowerCase();
+        while(walk.nextNode()){
+          const text = walk.currentNode.nodeValue; const idx = text.toLowerCase().indexOf(term);
+          if(idx!==-1){
+            const span = document.createElement('span'); span.className='highlight'; span.textContent=text.substring(idx, idx+term.length);
+            const frag = document.createDocumentFragment();
+            frag.appendChild(document.createTextNode(text.substring(0,idx)));
+            frag.appendChild(span);
+            frag.appendChild(document.createTextNode(text.substring(idx+term.length)));
+            walk.currentNode.parentNode.replaceChild(frag, walk.currentNode);
+            break; // only first occurrence
+          }
+        }
+      }
+      mark($reader);
+    }
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if((e.ctrlKey||e.metaKey) && e.key==='/' ){ e.preventDefault(); $search.focus(); }
+    });
+
+    $search.addEventListener('input', doSearch);
+
+    // Init
+    renderPills();
+    renderTree();
+  </script>
+</body>
+</html>
